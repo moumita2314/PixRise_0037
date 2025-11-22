@@ -1,0 +1,41 @@
+# ----------------------------
+# Web App and API Framework
+# ----------------------------
+flask
+flask-cors
+werkzeug
+
+# ----------------------------
+# Deep Learning / NLP
+# ----------------------------
+torch              # Use appropriate CUDA build if you have GPU (see README)
+transformers>=4.30
+datasets
+sentencepiece
+sentence-transformers
+
+# ----------------------------
+# OCR and Image Processing
+# ----------------------------
+easyocr
+pytesseract
+opencv-python
+Pillow
+numpy
+
+# ----------------------------
+# File Handling and Utilities
+# ----------------------------
+pyyaml
+requests
+
+# ----------------------------
+# Super-Resolution and Enhancement
+# ----------------------------
+realesrgan          # optional wrapper; if unavailable, use py-real-esrgan
+
+# ----------------------------
+# PDF & Report Generation
+# ----------------------------
+reportlab
+pdf2image
