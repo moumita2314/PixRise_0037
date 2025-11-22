@@ -1,0 +1,297 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PIX_RISE - Image AI Toolbox</title>
+  <style>
+    /* Color Palette */
+    :root {
+      --color1: #051646;
+      --color2: #02082c;
+      --color3: #0f315d;
+      --color4: #8197ac;
+      --color5: #b1bfd6;
+      --color6: #212F45;
+      --color7: #272640;
+      --color8: #312244;
+      --color9: #3E1F47;
+      --color10: #4D194D;
+      --text-light: #EFE9E1;
+      --text-dark: #D0D5CE;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, var(--color1), var(--color2), var(--color3) ,var(--color4), var(--color5));
+      color: var(--text-light);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 100px;
+      background: linear-gradient(90deg, var(--text-light), var(--color5),  var(--color4));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+
+    header img {
+      height: 250px;
+      vertical-align: middle;
+      margin-right: 15px;
+    }
+
+    .container {
+      background: #ffffffe3;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 90%;
+      max-width: 700px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      background: linear-gradient(90deg, var(--color3), var(--color7));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* File Input */
+    .file-input-wrapper {
+      position: relative;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      opacity: 0;
+      width: 100%;
+      height: 50px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    .file-input-label {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, var(--color3), var(--color1));
+      color: var(--text-light);
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid var(--color3);
+      box-sizing: border-box;
+    }
+
+    .file-input-label:hover {
+      background: linear-gradient(90deg, var(--color3), var(--color5));
+    }
+
+    #selectedFileName {
+      text-align: center;
+      font-style: italic;
+      color: var(--color1);
+      margin-bottom: 20px;
+      word-break: break-word;
+    }
+
+    button, select {
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      padding: 12px 20px;
+      transition: 0.3s;
+    }
+
+    button#uploadBtn {
+      background: var(--color1);
+      color: var(--text-light);
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    button#uploadBtn:hover {
+      background: var(--color3);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      background: var(--color1);
+      color: var(--text-light);
+      flex: 1 1 45%;
+      text-align: center;
+    }
+
+    .action-btn:hover {
+      background: var(--color4);
+    }
+
+    .sr-block {
+      display: flex;
+      gap: 8px;
+      flex: 1 1 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    select#srScale {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: var(--color3);
+      color: var(--text-light);
+    }
+
+    #results {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(37, 30, 30, 0.829);
+      border-radius: 12px;
+      border: 1px solid var(--color6);
+      white-space: pre-wrap;
+      color: var(--text-light);
+    }
+
+    #uploadedFile {
+      margin-top: 10px;
+      text-align: center;
+      font-style: italic;
+      color: var(--color1);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="/static/images/logo.png" alt="PIX_RISE Logo">
+    <h1>PIXRISE</h1>
+  </header>
+
+  <div class="container">
+    <div class="file-input-wrapper">
+      <label for="imageInput" class="file-input-label">Choose an image</label>
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+
+    <div id="selectedFileName">No file selected</div>
+    <button id="uploadBtn">Upload</button>
+    <div id="uploadedFile"></div>
+
+    <div class="actions">
+      <button class="action-btn" data-action="summarize">Image → Text Summarization</button>
+      <button class="action-btn" data-action="caption">Image Captioning</button>
+      <div class="sr-block">
+        <!-- <select id="srScale">
+          <option value="2">x2</option>
+          <option value="4" selected>x4</option>
+          <option value="8">x8</option>
+        </select> -->
+        <button class="action-btn" data-action="super_res">Super Resolution</button>
+      </div>
+    </div>
+
+    <div id="results"></div>
+  </div>
+
+  <script>
+    let uploadedPath = null;
+    const fileInput = document.getElementById('imageInput');
+    const fileNameDisplay = document.getElementById('selectedFileName');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const resultsDiv = document.getElementById('results');
+
+    fileInput.addEventListener('change', function() {
+      fileNameDisplay.textContent = fileInput.files.length ? fileInput.files[0].name : 'No file selected';
+    });
+
+    uploadBtn.addEventListener('click', async () => {
+      if (!fileInput.files.length) {
+        alert("Please choose an image first!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+
+      const res = await fetch('/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      uploadedPath = data.filepath;
+      document.getElementById('uploadedFile').textContent = `Uploaded: ${uploadedPath}`;
+      resultsDiv.textContent = '';
+    });
+
+    document.querySelectorAll('.action-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (!uploadedPath) {
+          alert("Please upload an image first!");
+          return;
+        }
+
+        const action = btn.dataset.action;
+        resultsDiv.textContent = "Processing...";
+
+        if (action === 'summarize') {
+          const res = await fetch('/summarize', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({image: uploadedPath})
+          });
+          const data = await res.json();
+          resultsDiv.innerHTML = `<h3>Summaries:</h3>${data.summaries.map(s => `<p>${s}</p>`).join('')}`;
+        }
+
+        if (action === 'caption') {
+          const res = await fetch('/caption', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({image: uploadedPath})
+          });
+          const data = await res.json();
+          resultsDiv.innerHTML = `<h3>Generated Captions:</h3>${data.captions.map(c => `<p>${c}</p>`).join('')}`;
+        }
+
+        if (action === 'super_res') {
+          const scale = document.getElementById('srScale').value;
+          const formData = new FormData();
+          formData.append('image', fileInput.files[0]);
+          formData.append('scale', scale);
+          const res = await fetch('/super_res', { method: 'POST', body: formData });
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          resultsDiv.innerHTML = `<h3>Super-Resolved Image:</h3><img src="${url}" style="max-width:100%;border-radius:10px;">`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
