@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; background:#f7f7f7; color:#222; padding:20px; }
+.container{ max-width:900px; margin:0 auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.actions{ margin-top:15px;}
+.action-btn{ margin-right:10px; padding:8px 12px;}
+.sr-block{ display:inline-block; margin-left:10px;}
+#results{ margin-top:20px; white-space:pre-wrap;}
